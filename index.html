@@ -1,1150 +1,1285 @@
-<<<<<<< HEAD
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>RafitaBOT — Panel de clase</title>
-  <style>
-    /* ── Reset y base ─────────────────────── */
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RafitaBOT — Panel SMR</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 
-    :root {
-      --bg:        #0f172a;
-      --bg2:       #1e293b;
-      --bg3:       #334155;
-      --azul:      #3b82f6;
-      --azul-claro:#60a5fa;
-      --verde:     #22c55e;
-      --rojo:      #ef4444;
-      --amarillo:  #f59e0b;
-      --texto:     #f1f5f9;
-      --texto2:    #94a3b8;
-      --borde:     #334155;
-    }
+:root{
+  --bg:#080c14;
+  --bg2:#0d1421;
+  --bg3:#111827;
+  --bg4:#1a2235;
+  --azul:#4f8fff;
+  --azul2:#2563eb;
+  --cyan:#06b6d4;
+  --verde:#10b981;
+  --rojo:#f43f5e;
+  --amarillo:#f59e0b;
+  --purpura:#8b5cf6;
+  --texto:#e2e8f0;
+  --texto2:#64748b;
+  --texto3:#94a3b8;
+  --borde:rgba(255,255,255,0.06);
+  --borde2:rgba(255,255,255,0.1);
+  --sombra:0 4px 24px rgba(0,0,0,0.4);
+}
 
-    body {
-      background: var(--bg);
-      color: var(--texto);
-      font-family: 'Inter', system-ui, sans-serif;
-      min-height: 100vh;
-    }
+html{scroll-behavior:smooth}
 
-    /* ── Header ───────────────────────────── */
-    header {
-      background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
-      border-bottom: 1px solid var(--borde);
-      padding: 1.5rem 2rem;
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      backdrop-filter: blur(10px);
-    }
+body{
+  background:var(--bg);
+  color:var(--texto);
+  font-family:'DM Sans',sans-serif;
+  min-height:100vh;
+  overflow-x:hidden;
+}
 
-    .header-icon {
-      font-size: 2rem;
-      background: var(--azul);
-      border-radius: 12px;
-      width: 52px;
-      height: 52px;
-      display: grid;
-      place-items: center;
-    }
+/* ── FONDO ANIMADO ─────────────────── */
+body::before{
+  content:'';
+  position:fixed;
+  inset:0;
+  background:
+    radial-gradient(ellipse 80% 50% at 20% 10%, rgba(37,99,235,0.07) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 40% at 80% 80%, rgba(6,182,212,0.05) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 30% at 60% 30%, rgba(139,92,246,0.04) 0%, transparent 50%);
+  pointer-events:none;
+  z-index:0;
+}
 
-    .header-texto h1 {
-      font-size: 1.4rem;
-      font-weight: 700;
-      color: var(--texto);
-    }
+/* ── GRID DE PUNTOS ─────────────────── */
+body::after{
+  content:'';
+  position:fixed;
+  inset:0;
+  background-image:radial-gradient(rgba(255,255,255,0.03) 1px, transparent 1px);
+  background-size:28px 28px;
+  pointer-events:none;
+  z-index:0;
+}
 
-    .header-texto p {
-      font-size: 0.85rem;
-      color: var(--texto2);
-    }
+/* ── NAVBAR ─────────────────────────── */
+nav{
+  position:fixed;
+  top:0;left:0;right:0;
+  z-index:1000;
+  background:rgba(8,12,20,0.85);
+  backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--borde);
+  padding:0 2rem;
+  height:64px;
+  display:flex;
+  align-items:center;
+  gap:1rem;
+}
 
-    .header-badge {
-      margin-left: auto;
-      background: #064e3b;
-      color: var(--verde);
-      border: 1px solid #065f46;
-      border-radius: 999px;
-      padding: 0.3rem 0.8rem;
-      font-size: 0.75rem;
-      font-weight: 600;
-      display: flex;
-      align-items: center;
-      gap: 0.4rem;
-    }
+.nav-logo{
+  display:flex;
+  align-items:center;
+  gap:0.7rem;
+  text-decoration:none;
+}
 
-    .dot {
-      width: 7px;
-      height: 7px;
-      background: var(--verde);
-      border-radius: 50%;
-      animation: pulse 2s infinite;
-    }
+.nav-logo-icon{
+  width:36px;height:36px;
+  background:linear-gradient(135deg,var(--azul2),var(--cyan));
+  border-radius:10px;
+  display:grid;place-items:center;
+  font-size:1.1rem;
+  box-shadow:0 0 20px rgba(37,99,235,0.4);
+}
 
-    @keyframes pulse {
-      0%, 100% { opacity: 1; }
-      50%       { opacity: 0.3; }
-    }
+.nav-logo-text{
+  font-family:'Syne',sans-serif;
+  font-weight:800;
+  font-size:1.1rem;
+  color:var(--texto);
+  letter-spacing:-0.02em;
+}
 
-    /* ── Layout principal ─────────────────── */
-    main {
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 2rem;
-    }
+.nav-logo-text span{color:var(--azul);}
 
-    /* ── Stats ────────────────────────────── */
-    .stats {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-      gap: 1rem;
-      margin-bottom: 2rem;
-    }
+.nav-badge{
+  background:rgba(16,185,129,0.1);
+  border:1px solid rgba(16,185,129,0.2);
+  color:var(--verde);
+  border-radius:999px;
+  padding:0.2rem 0.7rem;
+  font-size:0.72rem;
+  font-weight:500;
+  display:flex;align-items:center;gap:0.4rem;
+  margin-left:0.5rem;
+}
 
-    .stat-card {
-      background: var(--bg2);
-      border: 1px solid var(--borde);
-      border-radius: 16px;
-      padding: 1.2rem;
-      display: flex;
-      flex-direction: column;
-      gap: 0.4rem;
-    }
+.nav-dot{
+  width:6px;height:6px;
+  background:var(--verde);
+  border-radius:50%;
+  animation:blink 2s ease infinite;
+}
 
-    .stat-icon { font-size: 1.5rem; }
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0.2}}
 
-    .stat-numero {
-      font-size: 2rem;
-      font-weight: 800;
-      line-height: 1;
-    }
+.nav-links{
+  margin-left:auto;
+  display:flex;
+  align-items:center;
+  gap:0.5rem;
+}
 
-    .stat-label {
-      font-size: 0.8rem;
-      color: var(--texto2);
-    }
+.nav-btn{
+  display:flex;align-items:center;gap:0.5rem;
+  padding:0.5rem 1rem;
+  border-radius:10px;
+  font-size:0.82rem;
+  font-weight:500;
+  text-decoration:none;
+  transition:all 0.2s;
+  border:1px solid transparent;
+  cursor:pointer;
+  font-family:'DM Sans',sans-serif;
+}
 
-    .azul   { color: var(--azul-claro); }
-    .rojo   { color: var(--rojo); }
-    .verde  { color: var(--verde); }
-    .amarillo { color: var(--amarillo); }
+.nav-btn-ghost{
+  color:var(--texto3);
+  border-color:var(--borde2);
+  background:transparent;
+}
 
-    /* ── Secciones ────────────────────────── */
-    .seccion {
-      margin-bottom: 2rem;
-    }
+.nav-btn-ghost:hover{
+  background:var(--bg4);
+  color:var(--texto);
+  border-color:var(--borde2);
+}
 
-    .seccion-header {
-      display: flex;
-      align-items: center;
-      gap: 0.6rem;
-      margin-bottom: 1rem;
-      padding-bottom: 0.6rem;
-      border-bottom: 1px solid var(--borde);
-    }
+.nav-btn-primary{
+  background:linear-gradient(135deg,var(--azul2),var(--azul));
+  color:white;
+  border-color:transparent;
+  box-shadow:0 0 20px rgba(37,99,235,0.3);
+}
 
-    .seccion-header h2 {
-      font-size: 1.1rem;
-      font-weight: 600;
-    }
+.nav-btn-primary:hover{
+  box-shadow:0 0 30px rgba(37,99,235,0.5);
+  transform:translateY(-1px);
+}
 
-    .seccion-header .count {
-      background: var(--bg3);
-      color: var(--texto2);
-      border-radius: 999px;
-      padding: 0.15rem 0.6rem;
-      font-size: 0.75rem;
-      margin-left: auto;
-    }
+/* ── HERO ───────────────────────────── */
+.hero{
+  position:relative;
+  z-index:1;
+  padding:120px 2rem 60px;
+  text-align:center;
+  max-width:800px;
+  margin:0 auto;
+}
 
-    /* ── Cards ────────────────────────────── */
-    .cards {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      gap: 1rem;
-    }
+.hero-tag{
+  display:inline-flex;
+  align-items:center;
+  gap:0.5rem;
+  background:rgba(79,143,255,0.08);
+  border:1px solid rgba(79,143,255,0.2);
+  border-radius:999px;
+  padding:0.35rem 1rem;
+  font-size:0.78rem;
+  color:var(--azul);
+  font-weight:500;
+  margin-bottom:1.5rem;
+  animation:fadeUp 0.6s ease both;
+}
 
-    .card {
-      background: var(--bg2);
-      border: 1px solid var(--borde);
-      border-radius: 16px;
-      padding: 1.2rem;
-      display: flex;
-      flex-direction: column;
-      gap: 0.8rem;
-      transition: border-color 0.2s, transform 0.2s;
-      cursor: default;
-    }
+.hero h1{
+  font-family:'Syne',sans-serif;
+  font-size:clamp(2.2rem,5vw,3.8rem);
+  font-weight:800;
+  line-height:1.1;
+  letter-spacing:-0.04em;
+  margin-bottom:1rem;
+  animation:fadeUp 0.6s 0.1s ease both;
+}
 
-    .card:hover {
-      border-color: var(--azul);
-      transform: translateY(-2px);
-    }
+.hero h1 .grad{
+  background:linear-gradient(135deg,var(--azul),var(--cyan));
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+}
 
-    .card.urgente  { border-left: 3px solid var(--rojo); }
-    .card.pronto   { border-left: 3px solid var(--amarillo); }
-    .card.normal   { border-left: 3px solid var(--azul); }
-    .card.examen   { border-left: 3px solid #a855f7; }
+.hero p{
+  font-size:1.05rem;
+  color:var(--texto3);
+  line-height:1.7;
+  max-width:540px;
+  margin:0 auto 2rem;
+  font-weight:300;
+  animation:fadeUp 0.6s 0.2s ease both;
+}
 
-    .card-top {
-      display: flex;
-      align-items: flex-start;
-      gap: 0.8rem;
-    }
+.hero-actions{
+  display:flex;
+  justify-content:center;
+  gap:0.8rem;
+  flex-wrap:wrap;
+  animation:fadeUp 0.6s 0.3s ease both;
+}
 
-    .card-emoji {
-      font-size: 1.4rem;
-      flex-shrink: 0;
-      margin-top: 2px;
-    }
+.btn{
+  display:inline-flex;
+  align-items:center;
+  gap:0.5rem;
+  padding:0.75rem 1.5rem;
+  border-radius:12px;
+  font-size:0.9rem;
+  font-weight:500;
+  text-decoration:none;
+  transition:all 0.2s;
+  font-family:'DM Sans',sans-serif;
+  cursor:pointer;
+  border:none;
+}
 
-    .card-titulo {
-      font-size: 0.95rem;
-      font-weight: 600;
-      line-height: 1.3;
-    }
+.btn-primary{
+  background:linear-gradient(135deg,var(--azul2),var(--azul));
+  color:white;
+  box-shadow:0 0 30px rgba(37,99,235,0.35);
+}
 
-    .card-desc {
-      font-size: 0.8rem;
-      color: var(--texto2);
-      line-height: 1.5;
-    }
+.btn-primary:hover{
+  box-shadow:0 0 40px rgba(37,99,235,0.55);
+  transform:translateY(-2px);
+}
 
-    .card-footer {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.4rem;
-      margin-top: 0.2rem;
-    }
+.btn-secondary{
+  background:var(--bg3);
+  color:var(--texto);
+  border:1px solid var(--borde2);
+}
 
-    .badge {
-      border-radius: 999px;
-      padding: 0.2rem 0.6rem;
-      font-size: 0.72rem;
-      font-weight: 500;
-      white-space: nowrap;
-    }
+.btn-secondary:hover{
+  background:var(--bg4);
+  border-color:rgba(255,255,255,0.15);
+  transform:translateY(-2px);
+}
 
-    .badge-asig    { background: #1e3a5f; color: var(--azul-claro); }
-    .badge-urgente { background: #450a0a; color: #fca5a5; }
-    .badge-pronto  { background: #451a03; color: #fcd34d; }
-    .badge-normal  { background: #1e3a5f; color: var(--azul-claro); }
-    .badge-tipo    { background: #2e1065; color: #c4b5fd; }
-    .badge-temas   { background: #1a2e1a; color: #86efac; }
-    .badge-aula    { background: #1a1a2e; color: #a5b4fc; }
+.btn-tg{
+  background:linear-gradient(135deg,#0088cc,#00aee8);
+  color:white;
+  box-shadow:0 0 20px rgba(0,136,204,0.3);
+}
 
-    /* ── Loading y vacío ──────────────────── */
-    .loading {
-      text-align: center;
-      padding: 3rem;
-      color: var(--texto2);
-    }
+.btn-tg:hover{
+  box-shadow:0 0 30px rgba(0,136,204,0.5);
+  transform:translateY(-2px);
+}
 
-    .spinner {
-      width: 36px;
-      height: 36px;
-      border: 3px solid var(--borde);
-      border-top-color: var(--azul);
-      border-radius: 50%;
-      animation: spin 0.8s linear infinite;
-      margin: 0 auto 1rem;
-    }
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(20px)}
+  to{opacity:1;transform:translateY(0)}
+}
 
-    @keyframes spin { to { transform: rotate(360deg); } }
+/* ── STATS RÁPIDOS ──────────────────── */
+.stats-bar{
+  position:relative;z-index:1;
+  max-width:1000px;
+  margin:0 auto 3rem;
+  padding:0 2rem;
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+  gap:1rem;
+  animation:fadeUp 0.6s 0.4s ease both;
+}
 
-    .vacio {
-      text-align: center;
-      padding: 2rem;
-      color: var(--texto2);
-      font-size: 0.9rem;
-    }
+.stat{
+  background:var(--bg2);
+  border:1px solid var(--borde);
+  border-radius:16px;
+  padding:1.2rem 1.4rem;
+  display:flex;
+  align-items:center;
+  gap:1rem;
+  transition:all 0.2s;
+}
 
-    /* ── Footer ───────────────────────────── */
-    footer {
-      text-align: center;
-      padding: 2rem;
-      color: var(--texto2);
-      font-size: 0.8rem;
-      border-top: 1px solid var(--borde);
-      margin-top: 2rem;
-    }
+.stat:hover{
+  border-color:var(--borde2);
+  transform:translateY(-2px);
+}
 
-    footer a {
-      color: var(--azul-claro);
-      text-decoration: none;
-    }
+.stat-ico{
+  width:42px;height:42px;
+  border-radius:12px;
+  display:grid;place-items:center;
+  font-size:1.2rem;
+  flex-shrink:0;
+}
 
-    /* ── Responsive ───────────────────────── */
-    @media (max-width: 600px) {
-      main { padding: 1rem; }
-      header { padding: 1rem; }
-      .header-badge { display: none; }
-    }
-  </style>
+.ico-azul{background:rgba(37,99,235,0.15);}
+.ico-rojo{background:rgba(244,63,94,0.15);}
+.ico-amarillo{background:rgba(245,158,11,0.15);}
+.ico-verde{background:rgba(16,185,129,0.15);}
+.ico-purpura{background:rgba(139,92,246,0.15);}
+
+.stat-info{}
+.stat-num{
+  font-family:'Syne',sans-serif;
+  font-size:1.6rem;
+  font-weight:800;
+  line-height:1;
+  margin-bottom:0.2rem;
+}
+
+.c-azul{color:var(--azul);}
+.c-rojo{color:var(--rojo);}
+.c-amarillo{color:var(--amarillo);}
+.c-verde{color:var(--verde);}
+.c-purpura{color:var(--purpura);}
+.c-cyan{color:var(--cyan);}
+
+.stat-lbl{
+  font-size:0.75rem;
+  color:var(--texto2);
+  font-weight:400;
+}
+
+/* ── MAIN GRID ──────────────────────── */
+.container{
+  position:relative;z-index:1;
+  max-width:1200px;
+  margin:0 auto;
+  padding:0 2rem 4rem;
+}
+
+.grid-2{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:1.5rem;
+  margin-bottom:1.5rem;
+}
+
+.grid-full{margin-bottom:1.5rem;}
+
+@media(max-width:768px){
+  .grid-2{grid-template-columns:1fr;}
+  .nav-links .nav-btn-ghost{display:none;}
+}
+
+/* ── PANELES ────────────────────────── */
+.panel{
+  background:var(--bg2);
+  border:1px solid var(--borde);
+  border-radius:20px;
+  overflow:hidden;
+  transition:border-color 0.2s;
+}
+
+.panel:hover{border-color:var(--borde2);}
+
+.panel-head{
+  padding:1.2rem 1.5rem;
+  border-bottom:1px solid var(--borde);
+  display:flex;
+  align-items:center;
+  gap:0.7rem;
+}
+
+.panel-head-ico{
+  width:32px;height:32px;
+  border-radius:9px;
+  display:grid;place-items:center;
+  font-size:0.9rem;
+}
+
+.panel-head h2{
+  font-family:'Syne',sans-serif;
+  font-size:0.95rem;
+  font-weight:700;
+  letter-spacing:-0.01em;
+}
+
+.panel-count{
+  margin-left:auto;
+  background:var(--bg4);
+  color:var(--texto2);
+  border-radius:999px;
+  padding:0.15rem 0.6rem;
+  font-size:0.72rem;
+  font-weight:500;
+}
+
+.panel-body{
+  padding:1rem;
+  display:flex;
+  flex-direction:column;
+  gap:0.6rem;
+  max-height:420px;
+  overflow-y:auto;
+}
+
+.panel-body::-webkit-scrollbar{width:4px;}
+.panel-body::-webkit-scrollbar-track{background:transparent;}
+.panel-body::-webkit-scrollbar-thumb{background:var(--bg4);border-radius:4px;}
+
+/* ── TARJETAS DE TAREA ──────────────── */
+.tcard{
+  background:var(--bg3);
+  border:1px solid var(--borde);
+  border-radius:14px;
+  padding:1rem 1.1rem;
+  display:flex;
+  flex-direction:column;
+  gap:0.6rem;
+  transition:all 0.2s;
+  animation:fadeUp 0.4s ease both;
+  position:relative;
+  overflow:hidden;
+}
+
+.tcard::before{
+  content:'';
+  position:absolute;
+  left:0;top:0;bottom:0;
+  width:3px;
+  border-radius:3px 0 0 3px;
+}
+
+.tcard.urg::before{background:var(--rojo);}
+.tcard.prox::before{background:var(--amarillo);}
+.tcard.ok::before{background:var(--azul);}
+.tcard.exam::before{background:var(--purpura);}
+
+.tcard:hover{
+  background:var(--bg4);
+  border-color:var(--borde2);
+  transform:translateX(2px);
+}
+
+.tcard-top{
+  display:flex;
+  align-items:flex-start;
+  gap:0.7rem;
+}
+
+.tcard-ico{
+  font-size:1.2rem;
+  flex-shrink:0;
+  margin-top:1px;
+}
+
+.tcard-titulo{
+  font-size:0.88rem;
+  font-weight:500;
+  line-height:1.35;
+  color:var(--texto);
+}
+
+.tcard-desc{
+  font-size:0.78rem;
+  color:var(--texto2);
+  line-height:1.4;
+}
+
+.tcard-footer{
+  display:flex;
+  flex-wrap:wrap;
+  gap:0.35rem;
+}
+
+.chip{
+  border-radius:999px;
+  padding:0.18rem 0.55rem;
+  font-size:0.7rem;
+  font-weight:500;
+  white-space:nowrap;
+}
+
+.chip-asig{background:rgba(79,143,255,0.12);color:#93c5fd;}
+.chip-urg {background:rgba(244,63,94,0.12); color:#fda4af;}
+.chip-prox{background:rgba(245,158,11,0.12);color:#fcd34d;}
+.chip-ok  {background:rgba(79,143,255,0.12);color:#93c5fd;}
+.chip-exam{background:rgba(139,92,246,0.12);color:#c4b5fd;}
+.chip-tema{background:rgba(16,185,129,0.12);color:#6ee7b7;}
+.chip-aula{background:rgba(6,182,212,0.12); color:#67e8f9;}
+.chip-tipo{background:rgba(255,255,255,0.05);color:var(--texto2);}
+
+/* ── CALENDARIO ─────────────────────── */
+.cal-wrap{padding:1.2rem 1.5rem;}
+
+.cal-nav{
+  display:flex;align-items:center;
+  margin-bottom:1rem;
+}
+
+.cal-nav h3{
+  font-family:'Syne',sans-serif;
+  font-size:0.95rem;
+  font-weight:700;
+  flex:1;text-align:center;
+  letter-spacing:0.02em;
+}
+
+.cal-btn{
+  width:30px;height:30px;
+  border-radius:8px;
+  background:var(--bg3);
+  border:1px solid var(--borde);
+  color:var(--texto2);
+  cursor:pointer;
+  display:grid;place-items:center;
+  font-size:0.8rem;
+  transition:all 0.15s;
+}
+
+.cal-btn:hover{background:var(--bg4);color:var(--texto);}
+
+.cal-grid{
+  display:grid;
+  grid-template-columns:repeat(7,1fr);
+  gap:2px;
+}
+
+.cal-dow{
+  text-align:center;
+  font-size:0.65rem;
+  font-weight:600;
+  color:var(--texto2);
+  padding:0.4rem 0;
+  letter-spacing:0.05em;
+  text-transform:uppercase;
+}
+
+.cal-day{
+  aspect-ratio:1;
+  border-radius:8px;
+  display:grid;
+  place-items:center;
+  font-size:0.75rem;
+  color:var(--texto2);
+  cursor:default;
+  position:relative;
+  transition:all 0.15s;
+}
+
+.cal-day.hoy{
+  background:linear-gradient(135deg,var(--azul2),var(--azul));
+  color:white;
+  font-weight:700;
+  box-shadow:0 0 12px rgba(37,99,235,0.4);
+}
+
+.cal-day.tiene-evento{
+  color:var(--texto);
+  font-weight:500;
+}
+
+.cal-day.tiene-evento::after{
+  content:'';
+  position:absolute;
+  bottom:3px;
+  width:4px;height:4px;
+  border-radius:50%;
+  background:var(--purpura);
+}
+
+.cal-day.tiene-tarea::after{background:var(--azul);}
+
+.cal-day.tiene-evento.tiene-tarea::after{
+  background:linear-gradient(var(--purpura),var(--azul));
+}
+
+.cal-day:not(.hoy):hover{
+  background:var(--bg4);
+  color:var(--texto);
+}
+
+.cal-day.otro-mes{opacity:0.25;}
+
+/* ── SEMANA VISUAL ──────────────────── */
+.semana-grid{
+  padding:0 1rem 1rem;
+  display:flex;
+  flex-direction:column;
+  gap:0.5rem;
+}
+
+.dia-row{
+  display:flex;
+  align-items:flex-start;
+  gap:0.8rem;
+  padding:0.7rem;
+  border-radius:12px;
+  transition:background 0.15s;
+}
+
+.dia-row:hover{background:var(--bg3);}
+
+.dia-label{
+  min-width:80px;
+  flex-shrink:0;
+}
+
+.dia-nombre{
+  font-size:0.78rem;
+  font-weight:600;
+  color:var(--texto);
+  font-family:'Syne',sans-serif;
+}
+
+.dia-fecha{
+  font-size:0.68rem;
+  color:var(--texto2);
+  margin-top:1px;
+}
+
+.dia-label.hoy-label .dia-nombre{color:var(--azul);}
+.dia-label.hoy-label .dia-fecha{color:var(--azul);}
+
+.dia-items{
+  flex:1;
+  display:flex;
+  flex-wrap:wrap;
+  gap:0.35rem;
+  align-items:center;
+}
+
+.dia-vacio{
+  font-size:0.75rem;
+  color:var(--texto2);
+  font-style:italic;
+}
+
+.dia-chip{
+  display:flex;align-items:center;gap:0.3rem;
+  background:var(--bg3);
+  border:1px solid var(--borde);
+  border-radius:999px;
+  padding:0.25rem 0.7rem;
+  font-size:0.72rem;
+  color:var(--texto3);
+  transition:all 0.15s;
+  max-width:200px;
+}
+
+.dia-chip:hover{border-color:var(--borde2);color:var(--texto);}
+.dia-chip-exam{border-color:rgba(139,92,246,0.3);color:#c4b5fd;background:rgba(139,92,246,0.06);}
+.dia-chip-tarea{border-color:rgba(79,143,255,0.3);color:#93c5fd;background:rgba(79,143,255,0.06);}
+
+/* ── CTA CARDS ──────────────────────── */
+.cta-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:1rem;
+  margin-bottom:1.5rem;
+}
+
+@media(max-width:600px){.cta-grid{grid-template-columns:1fr;}}
+
+.cta-card{
+  border-radius:20px;
+  padding:1.8rem;
+  display:flex;
+  flex-direction:column;
+  gap:1rem;
+  text-decoration:none;
+  transition:all 0.2s;
+  position:relative;
+  overflow:hidden;
+}
+
+.cta-card::before{
+  content:'';
+  position:absolute;
+  inset:0;
+  opacity:0;
+  transition:opacity 0.2s;
+  background:rgba(255,255,255,0.03);
+}
+
+.cta-card:hover::before{opacity:1;}
+.cta-card:hover{transform:translateY(-3px);}
+
+.cta-tally{
+  background:linear-gradient(135deg,#1a1f2e,#1e2a3a);
+  border:1px solid rgba(79,143,255,0.2);
+  box-shadow:0 0 40px rgba(37,99,235,0.1);
+}
+
+.cta-telegram{
+  background:linear-gradient(135deg,#0a1628,#0d2040);
+  border:1px solid rgba(0,136,204,0.2);
+  box-shadow:0 0 40px rgba(0,136,204,0.1);
+}
+
+.cta-icon{
+  width:48px;height:48px;
+  border-radius:14px;
+  display:grid;place-items:center;
+  font-size:1.4rem;
+}
+
+.cta-tally .cta-icon{background:rgba(79,143,255,0.15);}
+.cta-telegram .cta-icon{background:rgba(0,136,204,0.15);}
+
+.cta-title{
+  font-family:'Syne',sans-serif;
+  font-size:1.1rem;
+  font-weight:700;
+  color:var(--texto);
+}
+
+.cta-desc{
+  font-size:0.82rem;
+  color:var(--texto2);
+  line-height:1.5;
+}
+
+.cta-arrow{
+  margin-top:auto;
+  display:inline-flex;
+  align-items:center;
+  gap:0.4rem;
+  font-size:0.82rem;
+  font-weight:500;
+}
+
+.cta-tally .cta-arrow{color:var(--azul);}
+.cta-telegram .cta-arrow{color:#38bdf8;}
+
+/* ── LOADING / VACÍO ────────────────── */
+.loading-state{
+  padding:2.5rem;
+  text-align:center;
+  color:var(--texto2);
+}
+
+.spinner{
+  width:32px;height:32px;
+  border:2px solid var(--bg4);
+  border-top-color:var(--azul);
+  border-radius:50%;
+  animation:spin 0.7s linear infinite;
+  margin:0 auto 0.8rem;
+}
+
+@keyframes spin{to{transform:rotate(360deg)}}
+
+.empty-state{
+  padding:2rem;
+  text-align:center;
+  color:var(--texto2);
+  font-size:0.85rem;
+}
+
+/* ── FOOTER ─────────────────────────── */
+footer{
+  position:relative;z-index:1;
+  border-top:1px solid var(--borde);
+  padding:1.5rem 2rem;
+  text-align:center;
+  color:var(--texto2);
+  font-size:0.78rem;
+}
+
+footer a{color:var(--azul);text-decoration:none;}
+footer a:hover{text-decoration:underline;}
+
+/* ── RESPONSIVE FINAL ───────────────── */
+@media(max-width:480px){
+  .hero{padding:100px 1rem 40px;}
+  .stats-bar{padding:0 1rem;}
+  .container{padding:0 1rem 3rem;}
+}
+</style>
 </head>
 <body>
 
-<header>
-  <div class="header-icon">📚</div>
-  <div class="header-texto">
-    <h1>RafitaBOT</h1>
-    <p>Panel de clase · 2º SMR</p>
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">
+    <div class="nav-logo-icon">📚</div>
+    <span class="nav-logo-text">Rafita<span>BOT</span></span>
+  </a>
+  <div class="nav-badge"><div class="nav-dot"></div>Sistema activo</div>
+  <div class="nav-links">
+    <a href="https://tally.so/r/WOKEVL" target="_blank" class="nav-btn nav-btn-ghost">➕ Añadir</a>
+    <a href="https://t.me/rafita_smr_bot" target="_blank" class="nav-btn nav-btn-primary">✈️ Telegram</a>
   </div>
-  <div class="header-badge">
-    <div class="dot"></div>
-    Sistema activo
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-tag">✦ 2º SMR · Gestión académica automatizada</div>
+  <h1>El asistente de tu<br><span class="grad">clase de SMR</span></h1>
+  <p>Consulta tareas y exámenes en tiempo real. Los recordatorios llegan solos al grupo de Telegram. Sin instalar nada.</p>
+  <div class="hero-actions">
+    <a href="https://tally.so/r/WOKEVL" target="_blank" class="btn btn-primary">➕ Añadir tarea o examen</a>
+    <a href="https://t.me/rafita_smr_bot" target="_blank" class="btn btn-tg">✈️ Abrir en Telegram</a>
+    <a href="#panel" class="btn btn-secondary">📋 Ver panel</a>
   </div>
-</header>
+</section>
 
-<main>
-
-  <!-- Stats -->
-  <div class="stats" id="stats">
-    <div class="stat-card">
-      <span class="stat-icon">📋</span>
-      <span class="stat-numero azul" id="stat-tareas">—</span>
-      <span class="stat-label">Tareas pendientes</span>
-    </div>
-    <div class="stat-card">
-      <span class="stat-icon">📝</span>
-      <span class="stat-numero rojo" id="stat-examenes">—</span>
-      <span class="stat-label">Exámenes próximos</span>
-    </div>
-    <div class="stat-card">
-      <span class="stat-icon">⚠️</span>
-      <span class="stat-numero amarillo" id="stat-urgentes">—</span>
-      <span class="stat-label">Urgentes (≤3 días)</span>
-    </div>
-    <div class="stat-card">
-      <span class="stat-icon">🕐</span>
-      <span class="stat-numero verde" id="stat-actualizacion">—</span>
-      <span class="stat-label">Última actualización</span>
+<!-- STATS -->
+<div class="stats-bar" id="stats-bar">
+  <div class="stat">
+    <div class="stat-ico ico-azul">📋</div>
+    <div class="stat-info">
+      <div class="stat-num c-azul" id="s-tareas">—</div>
+      <div class="stat-lbl">Tareas pendientes</div>
     </div>
   </div>
-
-  <!-- Exámenes -->
-  <div class="seccion">
-    <div class="seccion-header">
-      <span>📝</span>
-      <h2>Exámenes próximos</h2>
-      <span class="count" id="count-examenes">cargando...</span>
+  <div class="stat">
+    <div class="stat-ico ico-purpura">📝</div>
+    <div class="stat-info">
+      <div class="stat-num c-purpura" id="s-examenes">—</div>
+      <div class="stat-lbl">Exámenes próximos</div>
     </div>
-    <div class="cards" id="lista-examenes">
-      <div class="loading">
-        <div class="spinner"></div>
-        <p>Cargando exámenes...</p>
+  </div>
+  <div class="stat">
+    <div class="stat-ico ico-rojo">⚠️</div>
+    <div class="stat-info">
+      <div class="stat-num c-rojo" id="s-urgentes">—</div>
+      <div class="stat-lbl">Urgentes ≤3 días</div>
+    </div>
+  </div>
+  <div class="stat">
+    <div class="stat-ico ico-amarillo">📅</div>
+    <div class="stat-info">
+      <div class="stat-num c-amarillo" id="s-semana">—</div>
+      <div class="stat-lbl">Esta semana</div>
+    </div>
+  </div>
+  <div class="stat">
+    <div class="stat-ico ico-verde">🕐</div>
+    <div class="stat-info">
+      <div class="stat-num c-verde" id="s-hora" style="font-size:1.1rem;">—</div>
+      <div class="stat-lbl">Actualizado</div>
+    </div>
+  </div>
+</div>
+
+<!-- PANEL PRINCIPAL -->
+<div class="container" id="panel">
+
+  <!-- CTA -->
+  <div class="cta-grid">
+    <a href="https://tally.so/r/WOKEVL" target="_blank" class="cta-card cta-tally">
+      <div class="cta-icon">📋</div>
+      <div>
+        <div class="cta-title">Añadir tarea o examen</div>
+        <div class="cta-desc">Rellena el formulario y los datos aparecen automáticamente aquí y en Telegram.</div>
+      </div>
+      <div class="cta-arrow">Abrir formulario →</div>
+    </a>
+    <a href="https://t.me/rafita_smr_bot" target="_blank" class="cta-card cta-telegram">
+      <div class="cta-icon">✈️</div>
+      <div>
+        <div class="cta-title">Bot de Telegram</div>
+        <div class="cta-desc">Consulta tareas, exámenes y recibe recordatorios automáticos en el grupo de clase.</div>
+      </div>
+      <div class="cta-arrow">Abrir en Telegram →</div>
+    </a>
+  </div>
+
+  <!-- Esta semana -->
+  <div class="panel grid-full" id="panel-semana">
+    <div class="panel-head">
+      <div class="panel-head-ico ico-azul">📆</div>
+      <h2>Esta semana</h2>
+      <span class="panel-count" id="count-semana">cargando...</span>
+    </div>
+    <div class="semana-grid" id="semana-grid">
+      <div class="loading-state"><div class="spinner"></div><p>Cargando semana...</p></div>
+    </div>
+  </div>
+
+  <!-- Grid 2 col -->
+  <div class="grid-2">
+
+    <!-- Exámenes -->
+    <div class="panel">
+      <div class="panel-head">
+        <div class="panel-head-ico ico-purpura">📝</div>
+        <h2>Exámenes próximos</h2>
+        <span class="panel-count" id="count-examenes">cargando...</span>
+      </div>
+      <div class="panel-body" id="lista-examenes">
+        <div class="loading-state"><div class="spinner"></div><p>Cargando...</p></div>
+      </div>
+    </div>
+
+    <!-- Tareas -->
+    <div class="panel">
+      <div class="panel-head">
+        <div class="panel-head-ico ico-azul">📋</div>
+        <h2>Tareas pendientes</h2>
+        <span class="panel-count" id="count-tareas">cargando...</span>
+      </div>
+      <div class="panel-body" id="lista-tareas">
+        <div class="loading-state"><div class="spinner"></div><p>Cargando...</p></div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Calendario -->
+  <div class="panel grid-full">
+    <div class="panel-head">
+      <div class="panel-head-ico ico-cyan" style="background:rgba(6,182,212,0.15)">🗓</div>
+      <h2>Calendario</h2>
+      <span class="panel-count" id="cal-mes-label">—</span>
+    </div>
+    <div class="cal-wrap">
+      <div class="cal-nav">
+        <button class="cal-btn" onclick="cambiarMes(-1)">‹</button>
+        <h3 id="cal-titulo">—</h3>
+        <button class="cal-btn" onclick="cambiarMes(1)">›</button>
+      </div>
+      <div class="cal-grid" id="cal-grid">
+        <div class="loading-state" style="grid-column:1/-1"><div class="spinner"></div></div>
       </div>
     </div>
   </div>
 
-  <!-- Tareas -->
-  <div class="seccion">
-    <div class="seccion-header">
-      <span>📋</span>
-      <h2>Tareas pendientes</h2>
-      <span class="count" id="count-tareas">cargando...</span>
-    </div>
-    <div class="cards" id="lista-tareas">
-      <div class="loading">
-        <div class="spinner"></div>
-        <p>Cargando tareas...</p>
-      </div>
-    </div>
-  </div>
-
-</main>
+</div>
 
 <footer>
-  <p>
-    RafitaBOT · 2º SMR ·
-    <a href="https://t.me/TU_BOT_USERNAME" target="_blank">Abrir en Telegram</a>
-    · Datos actualizados en tiempo real desde Google Sheets
+  <p>RafitaBOT · 2º SMR · Datos sincronizados desde Google Sheets ·
+    <a href="https://tally.so/r/WOKEVL" target="_blank">Formulario</a> ·
+    <a href="https://t.me/rafita_smr_bot" target="_blank">@rafita_smr_bot</a>
   </p>
 </footer>
 
 <script>
-  // ══════════════════════════════════════════
-  // CONFIGURACIÓN — Cambia estos dos valores
-  // ══════════════════════════════════════════
-  const SHEET_ID  = "1OFMaCMIYSwP4SK5TzU74-ywoixGI74J-Wx4mZlKGtgg";
-  const API_KEY   = ""; // Opcional si la hoja es pública
-  // ══════════════════════════════════════════
+// ═══════════════════════════════════════
+// CONFIGURACIÓN
+// ═══════════════════════════════════════
+const SHEET_ID = "1OFMaCMIYSwP4SK5TzU74-ywoixGI74J-Wx4mZlKGtgg";
 
-  const MESES = ['enero','febrero','marzo','abril','mayo','junio',
-                 'julio','agosto','septiembre','octubre','noviembre','diciembre'];
+const MESES_CORTO = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+const MESES_LARGO = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+const DIAS = ['Lunes','Martes','Miércoles','Jueves','Viernes','Sábado','Domingo'];
+const DIAS_CORTO = ['LUN','MAR','MIÉ','JUE','VIE','SÁB','DOM'];
 
-  const EMOJIS_ASIG = {
-    AW: "💻", ING: "🇬🇧", SEG: "🔐", SER: "🌐", SOR: "🖥",
-    IPE: "📋", DIG: "📱", SOS: "♻️", PI: "🗂", FCT: "🏢"
-  };
+const EMOJIS = {
+  AW:'💻',ING:'🇬🇧',SEG:'🔐',SER:'🌐',SOR:'🖥',
+  IPE:'📋',DIG:'📱',SOS:'♻️',PI:'🗂',FCT:'🏢'
+};
 
-  function emojiAsig(asig) {
-    return EMOJIS_ASIG[asig?.toUpperCase()] || "📌";
-  }
+let calAño  = new Date().getFullYear();
+let calMes  = new Date().getMonth();
+let dataTareas   = [];
+let dataExamenes = [];
 
-  function normalizarFecha(f) {
-    if (!f) return null;
-    f = String(f).trim();
-    if (f.match(/^\d{4}-\d{2}-\d{2}$/)) return f;
-    const p = f.split('/');
-    if (p.length === 3) return `${p[2]}-${p[1].padStart(2,'0')}-${p[0].padStart(2,'0')}`;
-    return f;
-  }
+// ═══════════════════════════════════════
+// UTILS
+// ═══════════════════════════════════════
+function normFecha(f){
+  if(!f) return null;
+  f = String(f).trim();
+  if(f.match(/^\d{4}-\d{2}-\d{2}$/)) return f;
+  if(f.includes('T')) return f.split('T')[0];
+  const p = f.split('/');
+  if(p.length===3) return `${p[2]}-${p[1].padStart(2,'0')}-${p[0].padStart(2,'0')}`;
+  return f;
+}
 
-  function diasRestantes(fechaStr) {
-    const fecha = new Date(fechaStr + 'T00:00:00');
-    const hoy   = new Date();
-    hoy.setHours(0,0,0,0);
-    return Math.round((fecha - hoy) / 86400000);
-  }
+function diasRest(f){
+  if(!f) return 999;
+  const d = new Date(f+'T00:00:00');
+  const h = new Date(); h.setHours(0,0,0,0);
+  return Math.round((d-h)/86400000);
+}
 
-  function fechaLegible(fechaStr) {
-    const d = new Date(fechaStr + 'T00:00:00');
-    return `${d.getDate()} de ${MESES[d.getMonth()]}`;
-  }
+function fechaCorta(f){
+  if(!f) return '—';
+  const d = new Date(f+'T00:00:00');
+  return `${d.getDate()} ${MESES_CORTO[d.getMonth()]}`;
+}
 
-  function urgencia(dias) {
-    if (dias <= 1)  return { clase: 'urgente', badge: 'badge-urgente', texto: '🔴 Urgente' };
-    if (dias <= 3)  return { clase: 'pronto',  badge: 'badge-pronto',  texto: '🟡 Pronto' };
-    return          { clase: 'normal',  badge: 'badge-normal',  texto: `📅 En ${dias}d` };
-  }
+function emoji(asig){return EMOJIS[asig?.toUpperCase()]||'📌';}
 
-  // Lee una hoja de Google Sheets como CSV público
-  async function leerHoja(nombreHoja) {
-    const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(nombreHoja)}`;
-    const resp = await fetch(url);
-    const text = await resp.text();
+function urgClase(dias){
+  if(dias<=1) return 'urg';
+  if(dias<=3) return 'prox';
+  return 'ok';
+}
 
-    const lineas = text.trim().split('\n');
-    const headers = lineas[0].split(',').map(h => h.replace(/"/g, '').trim());
+function chipUrg(dias,fecha){
+  if(dias<0)   return `<span class="chip chip-urg">⛔ Hace ${Math.abs(dias)}d</span>`;
+  if(dias===0) return `<span class="chip chip-urg">🔥 HOY</span>`;
+  if(dias===1) return `<span class="chip chip-prox">⚠️ Mañana</span>`;
+  if(dias<=3)  return `<span class="chip chip-prox">⏰ En ${dias}d</span>`;
+  return        `<span class="chip chip-ok">📅 ${fechaCorta(fecha)}</span>`;
+}
 
-    return lineas.slice(1).map(linea => {
-      // Parseo CSV simple (maneja comas dentro de comillas)
-      const valores = [];
-      let actual = '';
-      let dentroComillas = false;
-      for (const c of linea) {
-        if (c === '"') { dentroComillas = !dentroComillas; }
-        else if (c === ',' && !dentroComillas) { valores.push(actual.trim()); actual = ''; }
-        else { actual += c; }
-      }
-      valores.push(actual.trim());
+function esc(s){
+  return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
 
-      const obj = {};
-      headers.forEach((h, i) => { obj[h] = (valores[i] || '').replace(/^"|"$/g, ''); });
-      return obj;
-    }).filter(r => r[headers[0]]); // Filtra filas vacías
-  }
-
-  function renderTareas(tareas) {
-    const contenedor = document.getElementById('lista-tareas');
-    const pendientes = tareas.filter(t => t.estado?.toLowerCase() === 'pendiente');
-
-    document.getElementById('count-tareas').textContent = `${pendientes.length} pendientes`;
-    document.getElementById('stat-tareas').textContent  = pendientes.length;
-
-    if (pendientes.length === 0) {
-      contenedor.innerHTML = '<div class="vacio">✅ Sin tareas pendientes · ¡Al día!</div>';
-      return;
+// ═══════════════════════════════════════
+// LEER SHEETS (CSV público)
+// ═══════════════════════════════════════
+async function leerHoja(nombre){
+  const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(nombre)}`;
+  const r = await fetch(url);
+  const txt = await r.text();
+  const lineas = txt.trim().split('\n');
+  if(lineas.length<2) return [];
+  const heads = lineas[0].split(',').map(h=>h.replace(/"/g,'').trim());
+  return lineas.slice(1).map(l=>{
+    const vals=[];let cur='';let inQ=false;
+    for(const c of l){
+      if(c==='"'){inQ=!inQ;}
+      else if(c===','&&!inQ){vals.push(cur.trim());cur='';}
+      else{cur+=c;}
     }
+    vals.push(cur.trim());
+    const obj={};
+    heads.forEach((h,i)=>{obj[h]=(vals[i]||'').replace(/^"|"$/g,'');});
+    return obj;
+  }).filter(r=>r[heads[0]]);
+}
 
-    // Ordenar por fecha
-    pendientes.sort((a, b) => {
-      const fa = normalizarFecha(a.fecha_entrega) || '';
-      const fb = normalizarFecha(b.fecha_entrega) || '';
+// ═══════════════════════════════════════
+// RENDER EXÁMENES
+// ═══════════════════════════════════════
+function renderExamenes(data){
+  const pend = data.filter(e=>e.estado?.toLowerCase()==='pendiente')
+    .sort((a,b)=>{
+      const fa=normFecha(a.fecha_examen)||'';
+      const fb=normFecha(b.fecha_examen)||'';
       return fa.localeCompare(fb);
     });
 
-    contenedor.innerHTML = pendientes.map(t => {
-      const fecha = normalizarFecha(t.fecha_entrega);
-      const dias  = fecha ? diasRestantes(fecha) : 99;
-      const u     = urgencia(dias);
-      const emoji = emojiAsig(t.asignatura);
+  document.getElementById('count-examenes').textContent = `${pend.length} próximos`;
+  document.getElementById('s-examenes').textContent = pend.length;
 
-      return `
-        <div class="card ${u.clase}">
-          <div class="card-top">
-            <span class="card-emoji">${emoji}</span>
-            <div>
-              <div class="card-titulo">${t.titulo || '—'}</div>
-              ${t.descripcion ? `<div class="card-desc">${t.descripcion}</div>` : ''}
-            </div>
-          </div>
-          <div class="card-footer">
-            <span class="badge badge-asig">${t.asignatura || '—'}</span>
-            <span class="badge ${u.badge}">${fecha ? fechaLegible(fecha) : '—'} · ${u.texto}</span>
-            ${t.tipo ? `<span class="badge badge-tipo">${t.tipo}</span>` : ''}
-          </div>
-        </div>
-      `;
-    }).join('');
+  const el = document.getElementById('lista-examenes');
+  if(!pend.length){
+    el.innerHTML='<div class="empty-state">✅ Sin exámenes próximos</div>';
+    return;
   }
 
-  function renderExamenes(examenes) {
-    const contenedor = document.getElementById('lista-examenes');
-    const pendientes = examenes.filter(e => e.estado?.toLowerCase() === 'pendiente');
+  el.innerHTML = pend.map((e,i)=>{
+    const f = normFecha(e.fecha_examen);
+    const d = diasRest(f);
+    const em = emoji(e.asignatura);
+    return `
+      <div class="tcard exam" style="animation-delay:${i*0.05}s">
+        <div class="tcard-top">
+          <span class="tcard-ico">${em}</span>
+          <div>
+            <div class="tcard-titulo">${esc(e.titulo)}</div>
+            ${e.descripcion?`<div class="tcard-desc">${esc(e.descripcion)}</div>`:''}
+          </div>
+        </div>
+        <div class="tcard-footer">
+          <span class="chip chip-asig">${esc(e.asignatura)||'—'}</span>
+          ${chipUrg(d,f)}
+          ${e.temas?`<span class="chip chip-tema">📖 ${esc(e.temas)}</span>`:''}
+          ${e.aula ?`<span class="chip chip-aula">🚪 Aula ${esc(e.aula)}</span>`:''}
+        </div>
+      </div>`;
+  }).join('');
+}
 
-    document.getElementById('count-examenes').textContent = `${pendientes.length} próximos`;
-    document.getElementById('stat-examenes').textContent  = pendientes.length;
-
-    if (pendientes.length === 0) {
-      contenedor.innerHTML = '<div class="vacio">✅ Sin exámenes próximos</div>';
-      return;
-    }
-
-    pendientes.sort((a, b) => {
-      const fa = normalizarFecha(a.fecha_examen) || '';
-      const fb = normalizarFecha(b.fecha_examen) || '';
+// ═══════════════════════════════════════
+// RENDER TAREAS
+// ═══════════════════════════════════════
+function renderTareas(data){
+  const pend = data.filter(t=>t.estado?.toLowerCase()==='pendiente')
+    .sort((a,b)=>{
+      const fa=normFecha(a.fecha_entrega)||'';
+      const fb=normFecha(b.fecha_entrega)||'';
       return fa.localeCompare(fb);
     });
 
-    contenedor.innerHTML = pendientes.map(e => {
-      const fecha = normalizarFecha(e.fecha_examen);
-      const dias  = fecha ? diasRestantes(fecha) : 99;
-      const u     = urgencia(dias);
-      const emoji = emojiAsig(e.asignatura);
+  document.getElementById('count-tareas').textContent = `${pend.length} pendientes`;
+  document.getElementById('s-tareas').textContent = pend.length;
 
-      return `
-        <div class="card examen">
-          <div class="card-top">
-            <span class="card-emoji">${emoji}</span>
-            <div>
-              <div class="card-titulo">${e.titulo || '—'}</div>
-              ${e.descripcion ? `<div class="card-desc">${e.descripcion}</div>` : ''}
-            </div>
-          </div>
-          <div class="card-footer">
-            <span class="badge badge-asig">${e.asignatura || '—'}</span>
-            <span class="badge ${u.badge}">${fecha ? fechaLegible(fecha) : '—'} · ${u.texto}</span>
-            ${e.temas ? `<span class="badge badge-temas">📖 ${e.temas}</span>` : ''}
-            ${e.aula  ? `<span class="badge badge-aula">🚪 Aula ${e.aula}</span>`  : ''}
+  const el = document.getElementById('lista-tareas');
+  if(!pend.length){
+    el.innerHTML='<div class="empty-state">✅ Sin tareas pendientes</div>';
+    return;
+  }
+
+  el.innerHTML = pend.map((t,i)=>{
+    const f = normFecha(t.fecha_entrega);
+    const d = diasRest(f);
+    const em = emoji(t.asignatura);
+    const cl = urgClase(d);
+    return `
+      <div class="tcard ${cl}" style="animation-delay:${i*0.05}s">
+        <div class="tcard-top">
+          <span class="tcard-ico">${em}</span>
+          <div>
+            <div class="tcard-titulo">${esc(t.titulo)}</div>
+            ${t.descripcion?`<div class="tcard-desc">${esc(t.descripcion)}</div>`:''}
           </div>
         </div>
-      `;
-    }).join('');
+        <div class="tcard-footer">
+          <span class="chip chip-asig">${esc(t.asignatura)||'—'}</span>
+          ${chipUrg(d,f)}
+          ${t.tipo?`<span class="chip chip-tipo">${esc(t.tipo)}</span>`:''}
+        </div>
+      </div>`;
+  }).join('');
+}
+
+// ═══════════════════════════════════════
+// RENDER SEMANA
+// ═══════════════════════════════════════
+function renderSemana(tareas, examenes){
+  const hoy = new Date(); hoy.setHours(0,0,0,0);
+  const lunes = new Date(hoy);
+  const dow = hoy.getDay()===0?6:hoy.getDay()-1;
+  lunes.setDate(hoy.getDate()-dow);
+
+  const items = [];
+  tareas.filter(t=>t.estado?.toLowerCase()==='pendiente').forEach(t=>{
+    const f=normFecha(t.fecha_entrega);
+    if(f) items.push({fecha:f,tipo:'tarea',titulo:t.titulo,asig:t.asignatura});
+  });
+  examenes.filter(e=>e.estado?.toLowerCase()==='pendiente').forEach(e=>{
+    const f=normFecha(e.fecha_examen);
+    if(f) items.push({fecha:f,tipo:'examen',titulo:e.titulo,asig:e.asignatura});
+  });
+
+  let semanaItems=0;
+  const rows = [];
+
+  for(let i=0;i<7;i++){
+    const dia = new Date(lunes);
+    dia.setDate(lunes.getDate()+i);
+    const fStr = dia.toISOString().split('T')[0];
+    const esHoy = dia.getTime()===hoy.getTime();
+    const diaItems = items.filter(it=>it.fecha===fStr);
+    if(diaItems.length) semanaItems+=diaItems.length;
+
+    const chips = diaItems.length
+      ? diaItems.map(it=>`
+          <div class="dia-chip ${it.tipo==='examen'?'dia-chip-exam':'dia-chip-tarea'}">
+            ${emoji(it.asig)} ${esc(it.titulo)}
+          </div>`).join('')
+      : '<span class="dia-vacio">Sin actividades</span>';
+
+    rows.push(`
+      <div class="dia-row">
+        <div class="dia-label ${esHoy?'hoy-label':''}">
+          <div class="dia-nombre">${DIAS[i]}</div>
+          <div class="dia-fecha">${dia.getDate()} ${MESES_CORTO[dia.getMonth()]}</div>
+        </div>
+        <div class="dia-items">${chips}</div>
+      </div>`);
   }
 
-  function actualizarUrgentes(tareas, examenes) {
-    const hoy = new Date(); hoy.setHours(0,0,0,0);
-    let urgentes = 0;
+  document.getElementById('s-semana').textContent = semanaItems;
+  document.getElementById('count-semana').textContent = `${semanaItems} actividades`;
+  document.getElementById('semana-grid').innerHTML = rows.join('');
+}
 
-    [...tareas, ...examenes].forEach(item => {
-      const fecha = normalizarFecha(item.fecha_entrega || item.fecha_examen);
-      if (fecha && diasRestantes(fecha) <= 3) urgentes++;
+// ═══════════════════════════════════════
+// CALENDARIO
+// ═══════════════════════════════════════
+function renderCalendario(){
+  const hoy = new Date(); hoy.setHours(0,0,0,0);
+  const primerDia = new Date(calAño, calMes, 1);
+  const diasMes = new Date(calAño, calMes+1, 0).getDate();
+  let startDow = primerDia.getDay()===0?6:primerDia.getDay()-1;
+
+  document.getElementById('cal-titulo').textContent =
+    `${MESES_LARGO[calMes].charAt(0).toUpperCase()+MESES_LARGO[calMes].slice(1)} ${calAño}`;
+  document.getElementById('cal-mes-label').textContent =
+    `${MESES_CORTO[calMes]} ${calAño}`;
+
+  // Fechas con eventos
+  const fechasExamen = new Set(dataExamenes
+    .filter(e=>e.estado?.toLowerCase()==='pendiente')
+    .map(e=>normFecha(e.fecha_examen)).filter(Boolean));
+  const fechasTarea = new Set(dataTareas
+    .filter(t=>t.estado?.toLowerCase()==='pendiente')
+    .map(t=>normFecha(t.fecha_entrega)).filter(Boolean));
+
+  let html = DIAS_CORTO.map(d=>`<div class="cal-dow">${d}</div>`).join('');
+
+  // Celdas vacías al inicio
+  for(let i=0;i<startDow;i++) html+=`<div class="cal-day otro-mes"></div>`;
+
+  for(let d=1;d<=diasMes;d++){
+    const f = `${calAño}-${String(calMes+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+    const dObj = new Date(calAño,calMes,d);
+    const esHoy = dObj.getTime()===hoy.getTime();
+    const tieneExamen = fechasExamen.has(f);
+    const tieneTarea  = fechasTarea.has(f);
+    let cls = 'cal-day';
+    if(esHoy) cls+=' hoy';
+    if(tieneExamen && tieneTarea) cls+=' tiene-evento';
+    else if(tieneExamen) cls+=' tiene-evento';
+    else if(tieneTarea)  cls+=' tiene-evento tiene-tarea';
+    html+=`<div class="${cls}">${d}</div>`;
+  }
+
+  document.getElementById('cal-grid').innerHTML = html;
+}
+
+function cambiarMes(dir){
+  calMes+=dir;
+  if(calMes<0){calMes=11;calAño--;}
+  if(calMes>11){calMes=0;calAño++;}
+  renderCalendario();
+}
+
+// ═══════════════════════════════════════
+// ESTADÍSTICAS GLOBALES
+// ═══════════════════════════════════════
+function actualizarStats(tareas, examenes){
+  const pT = tareas.filter(t=>t.estado?.toLowerCase()==='pendiente');
+  const pE = examenes.filter(e=>e.estado?.toLowerCase()==='pendiente');
+
+  let urgentes=0;
+  [...pT,...pE].forEach(item=>{
+    const f=normFecha(item.fecha_entrega||item.fecha_examen);
+    if(f && diasRest(f)<=3) urgentes++;
+  });
+
+  document.getElementById('s-urgentes').textContent = urgentes;
+
+  const ahora = new Date();
+  document.getElementById('s-hora').textContent =
+    `${ahora.getHours()}:${String(ahora.getMinutes()).padStart(2,'0')}`;
+}
+
+// ═══════════════════════════════════════
+// CARGA PRINCIPAL
+// ═══════════════════════════════════════
+async function cargar(){
+  try{
+    const [t,e] = await Promise.all([leerHoja('TAREAS'), leerHoja('EXAMENES')]);
+    dataTareas   = t;
+    dataExamenes = e;
+
+    renderTareas(t);
+    renderExamenes(e);
+    renderSemana(t,e);
+    renderCalendario();
+    actualizarStats(t,e);
+
+  }catch(err){
+    console.error('Error cargando datos:',err);
+    ['lista-tareas','lista-examenes','semana-grid'].forEach(id=>{
+      const el=document.getElementById(id);
+      if(el) el.innerHTML='<div class="empty-state">❌ Error al cargar. Verifica que el Sheet es público.</div>';
     });
-
-    document.getElementById('stat-urgentes').textContent = urgentes;
   }
+}
 
-  async function cargar() {
-    try {
-      const [tareas, examenes] = await Promise.all([
-        leerHoja('TAREAS'),
-        leerHoja('EXAMENES')
-      ]);
-
-      renderTareas(tareas);
-      renderExamenes(examenes);
-      actualizarUrgentes(tareas, examenes);
-
-      const ahora = new Date();
-      document.getElementById('stat-actualizacion').textContent =
-        `${ahora.getHours()}:${String(ahora.getMinutes()).padStart(2,'0')}`;
-
-    } catch (error) {
-      console.error('Error cargando datos:', error);
-      document.getElementById('lista-tareas').innerHTML =
-        '<div class="vacio">❌ Error cargando datos. Comprueba que el Sheet es público.</div>';
-      document.getElementById('lista-examenes').innerHTML =
-        '<div class="vacio">❌ Error cargando datos.</div>';
-    }
-  }
-
-  // Carga inicial y refresco cada 5 minutos
-  cargar();
-  setInterval(cargar, 5 * 60 * 1000);
+cargar();
+setInterval(cargar, 5*60*1000);
 </script>
-
 </body>
-=======
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>RafitaBOT — Panel de clase</title>
-  <style>
-    /* ── Reset y base ─────────────────────── */
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    :root {
-      --bg:        #0f172a;
-      --bg2:       #1e293b;
-      --bg3:       #334155;
-      --azul:      #3b82f6;
-      --azul-claro:#60a5fa;
-      --verde:     #22c55e;
-      --rojo:      #ef4444;
-      --amarillo:  #f59e0b;
-      --texto:     #f1f5f9;
-      --texto2:    #94a3b8;
-      --borde:     #334155;
-    }
-
-    body {
-      background: var(--bg);
-      color: var(--texto);
-      font-family: 'Inter', system-ui, sans-serif;
-      min-height: 100vh;
-    }
-
-    /* ── Header ───────────────────────────── */
-    header {
-      background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
-      border-bottom: 1px solid var(--borde);
-      padding: 1.5rem 2rem;
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      backdrop-filter: blur(10px);
-    }
-
-    .header-icon {
-      font-size: 2rem;
-      background: var(--azul);
-      border-radius: 12px;
-      width: 52px;
-      height: 52px;
-      display: grid;
-      place-items: center;
-    }
-
-    .header-texto h1 {
-      font-size: 1.4rem;
-      font-weight: 700;
-      color: var(--texto);
-    }
-
-    .header-texto p {
-      font-size: 0.85rem;
-      color: var(--texto2);
-    }
-
-    .header-badge {
-      margin-left: auto;
-      background: #064e3b;
-      color: var(--verde);
-      border: 1px solid #065f46;
-      border-radius: 999px;
-      padding: 0.3rem 0.8rem;
-      font-size: 0.75rem;
-      font-weight: 600;
-      display: flex;
-      align-items: center;
-      gap: 0.4rem;
-    }
-
-    .dot {
-      width: 7px;
-      height: 7px;
-      background: var(--verde);
-      border-radius: 50%;
-      animation: pulse 2s infinite;
-    }
-
-    @keyframes pulse {
-      0%, 100% { opacity: 1; }
-      50%       { opacity: 0.3; }
-    }
-
-    /* ── Layout principal ─────────────────── */
-    main {
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 2rem;
-    }
-
-    /* ── Stats ────────────────────────────── */
-    .stats {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-      gap: 1rem;
-      margin-bottom: 2rem;
-    }
-
-    .stat-card {
-      background: var(--bg2);
-      border: 1px solid var(--borde);
-      border-radius: 16px;
-      padding: 1.2rem;
-      display: flex;
-      flex-direction: column;
-      gap: 0.4rem;
-    }
-
-    .stat-icon { font-size: 1.5rem; }
-
-    .stat-numero {
-      font-size: 2rem;
-      font-weight: 800;
-      line-height: 1;
-    }
-
-    .stat-label {
-      font-size: 0.8rem;
-      color: var(--texto2);
-    }
-
-    .azul   { color: var(--azul-claro); }
-    .rojo   { color: var(--rojo); }
-    .verde  { color: var(--verde); }
-    .amarillo { color: var(--amarillo); }
-
-    /* ── Secciones ────────────────────────── */
-    .seccion {
-      margin-bottom: 2rem;
-    }
-
-    .seccion-header {
-      display: flex;
-      align-items: center;
-      gap: 0.6rem;
-      margin-bottom: 1rem;
-      padding-bottom: 0.6rem;
-      border-bottom: 1px solid var(--borde);
-    }
-
-    .seccion-header h2 {
-      font-size: 1.1rem;
-      font-weight: 600;
-    }
-
-    .seccion-header .count {
-      background: var(--bg3);
-      color: var(--texto2);
-      border-radius: 999px;
-      padding: 0.15rem 0.6rem;
-      font-size: 0.75rem;
-      margin-left: auto;
-    }
-
-    /* ── Cards ────────────────────────────── */
-    .cards {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      gap: 1rem;
-    }
-
-    .card {
-      background: var(--bg2);
-      border: 1px solid var(--borde);
-      border-radius: 16px;
-      padding: 1.2rem;
-      display: flex;
-      flex-direction: column;
-      gap: 0.8rem;
-      transition: border-color 0.2s, transform 0.2s;
-      cursor: default;
-    }
-
-    .card:hover {
-      border-color: var(--azul);
-      transform: translateY(-2px);
-    }
-
-    .card.urgente  { border-left: 3px solid var(--rojo); }
-    .card.pronto   { border-left: 3px solid var(--amarillo); }
-    .card.normal   { border-left: 3px solid var(--azul); }
-    .card.examen   { border-left: 3px solid #a855f7; }
-
-    .card-top {
-      display: flex;
-      align-items: flex-start;
-      gap: 0.8rem;
-    }
-
-    .card-emoji {
-      font-size: 1.4rem;
-      flex-shrink: 0;
-      margin-top: 2px;
-    }
-
-    .card-titulo {
-      font-size: 0.95rem;
-      font-weight: 600;
-      line-height: 1.3;
-    }
-
-    .card-desc {
-      font-size: 0.8rem;
-      color: var(--texto2);
-      line-height: 1.5;
-    }
-
-    .card-footer {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.4rem;
-      margin-top: 0.2rem;
-    }
-
-    .badge {
-      border-radius: 999px;
-      padding: 0.2rem 0.6rem;
-      font-size: 0.72rem;
-      font-weight: 500;
-      white-space: nowrap;
-    }
-
-    .badge-asig    { background: #1e3a5f; color: var(--azul-claro); }
-    .badge-urgente { background: #450a0a; color: #fca5a5; }
-    .badge-pronto  { background: #451a03; color: #fcd34d; }
-    .badge-normal  { background: #1e3a5f; color: var(--azul-claro); }
-    .badge-tipo    { background: #2e1065; color: #c4b5fd; }
-    .badge-temas   { background: #1a2e1a; color: #86efac; }
-    .badge-aula    { background: #1a1a2e; color: #a5b4fc; }
-
-    /* ── Loading y vacío ──────────────────── */
-    .loading {
-      text-align: center;
-      padding: 3rem;
-      color: var(--texto2);
-    }
-
-    .spinner {
-      width: 36px;
-      height: 36px;
-      border: 3px solid var(--borde);
-      border-top-color: var(--azul);
-      border-radius: 50%;
-      animation: spin 0.8s linear infinite;
-      margin: 0 auto 1rem;
-    }
-
-    @keyframes spin { to { transform: rotate(360deg); } }
-
-    .vacio {
-      text-align: center;
-      padding: 2rem;
-      color: var(--texto2);
-      font-size: 0.9rem;
-    }
-
-    /* ── Footer ───────────────────────────── */
-    footer {
-      text-align: center;
-      padding: 2rem;
-      color: var(--texto2);
-      font-size: 0.8rem;
-      border-top: 1px solid var(--borde);
-      margin-top: 2rem;
-    }
-
-    footer a {
-      color: var(--azul-claro);
-      text-decoration: none;
-    }
-
-    /* ── Responsive ───────────────────────── */
-    @media (max-width: 600px) {
-      main { padding: 1rem; }
-      header { padding: 1rem; }
-      .header-badge { display: none; }
-    }
-  </style>
-</head>
-<body>
-
-<header>
-  <div class="header-icon">📚</div>
-  <div class="header-texto">
-    <h1>RafitaBOT</h1>
-    <p>Panel de clase · 2º SMR</p>
-  </div>
-  <div class="header-badge">
-    <div class="dot"></div>
-    Sistema activo
-  </div>
-</header>
-
-<main>
-
-  <!-- Stats -->
-  <div class="stats" id="stats">
-    <div class="stat-card">
-      <span class="stat-icon">📋</span>
-      <span class="stat-numero azul" id="stat-tareas">—</span>
-      <span class="stat-label">Tareas pendientes</span>
-    </div>
-    <div class="stat-card">
-      <span class="stat-icon">📝</span>
-      <span class="stat-numero rojo" id="stat-examenes">—</span>
-      <span class="stat-label">Exámenes próximos</span>
-    </div>
-    <div class="stat-card">
-      <span class="stat-icon">⚠️</span>
-      <span class="stat-numero amarillo" id="stat-urgentes">—</span>
-      <span class="stat-label">Urgentes (≤3 días)</span>
-    </div>
-    <div class="stat-card">
-      <span class="stat-icon">🕐</span>
-      <span class="stat-numero verde" id="stat-actualizacion">—</span>
-      <span class="stat-label">Última actualización</span>
-    </div>
-  </div>
-
-  <!-- Exámenes -->
-  <div class="seccion">
-    <div class="seccion-header">
-      <span>📝</span>
-      <h2>Exámenes próximos</h2>
-      <span class="count" id="count-examenes">cargando...</span>
-    </div>
-    <div class="cards" id="lista-examenes">
-      <div class="loading">
-        <div class="spinner"></div>
-        <p>Cargando exámenes...</p>
-      </div>
-    </div>
-  </div>
-
-  <!-- Tareas -->
-  <div class="seccion">
-    <div class="seccion-header">
-      <span>📋</span>
-      <h2>Tareas pendientes</h2>
-      <span class="count" id="count-tareas">cargando...</span>
-    </div>
-    <div class="cards" id="lista-tareas">
-      <div class="loading">
-        <div class="spinner"></div>
-        <p>Cargando tareas...</p>
-      </div>
-    </div>
-  </div>
-
-</main>
-
-<footer>
-  <p>
-    RafitaBOT · 2º SMR ·
-    <a href="https://t.me/TU_BOT_USERNAME" target="_blank">Abrir en Telegram</a>
-    · Datos actualizados en tiempo real desde Google Sheets
-  </p>
-</footer>
-
-<script>
-  // ══════════════════════════════════════════
-  // CONFIGURACIÓN — Cambia estos dos valores
-  // ══════════════════════════════════════════
-  const SHEET_ID  = "1OFMaCMIYSwP4SK5TzU74-ywoixGI74J-Wx4mZlKGtgg";
-  const API_KEY   = ""; // Opcional si la hoja es pública
-  // ══════════════════════════════════════════
-
-  const MESES = ['enero','febrero','marzo','abril','mayo','junio',
-                 'julio','agosto','septiembre','octubre','noviembre','diciembre'];
-
-  const EMOJIS_ASIG = {
-    AW: "💻", ING: "🇬🇧", SEG: "🔐", SER: "🌐", SOR: "🖥",
-    IPE: "📋", DIG: "📱", SOS: "♻️", PI: "🗂", FCT: "🏢"
-  };
-
-  function emojiAsig(asig) {
-    return EMOJIS_ASIG[asig?.toUpperCase()] || "📌";
-  }
-
-  function normalizarFecha(f) {
-    if (!f) return null;
-    f = String(f).trim();
-    if (f.match(/^\d{4}-\d{2}-\d{2}$/)) return f;
-    const p = f.split('/');
-    if (p.length === 3) return `${p[2]}-${p[1].padStart(2,'0')}-${p[0].padStart(2,'0')}`;
-    return f;
-  }
-
-  function diasRestantes(fechaStr) {
-    const fecha = new Date(fechaStr + 'T00:00:00');
-    const hoy   = new Date();
-    hoy.setHours(0,0,0,0);
-    return Math.round((fecha - hoy) / 86400000);
-  }
-
-  function fechaLegible(fechaStr) {
-    const d = new Date(fechaStr + 'T00:00:00');
-    return `${d.getDate()} de ${MESES[d.getMonth()]}`;
-  }
-
-  function urgencia(dias) {
-    if (dias <= 1)  return { clase: 'urgente', badge: 'badge-urgente', texto: '🔴 Urgente' };
-    if (dias <= 3)  return { clase: 'pronto',  badge: 'badge-pronto',  texto: '🟡 Pronto' };
-    return          { clase: 'normal',  badge: 'badge-normal',  texto: `📅 En ${dias}d` };
-  }
-
-  // Lee una hoja de Google Sheets como CSV público
-  async function leerHoja(nombreHoja) {
-    const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(nombreHoja)}`;
-    const resp = await fetch(url);
-    const text = await resp.text();
-
-    const lineas = text.trim().split('\n');
-    const headers = lineas[0].split(',').map(h => h.replace(/"/g, '').trim());
-
-    return lineas.slice(1).map(linea => {
-      // Parseo CSV simple (maneja comas dentro de comillas)
-      const valores = [];
-      let actual = '';
-      let dentroComillas = false;
-      for (const c of linea) {
-        if (c === '"') { dentroComillas = !dentroComillas; }
-        else if (c === ',' && !dentroComillas) { valores.push(actual.trim()); actual = ''; }
-        else { actual += c; }
-      }
-      valores.push(actual.trim());
-
-      const obj = {};
-      headers.forEach((h, i) => { obj[h] = (valores[i] || '').replace(/^"|"$/g, ''); });
-      return obj;
-    }).filter(r => r[headers[0]]); // Filtra filas vacías
-  }
-
-  function renderTareas(tareas) {
-    const contenedor = document.getElementById('lista-tareas');
-    const pendientes = tareas.filter(t => t.estado?.toLowerCase() === 'pendiente');
-
-    document.getElementById('count-tareas').textContent = `${pendientes.length} pendientes`;
-    document.getElementById('stat-tareas').textContent  = pendientes.length;
-
-    if (pendientes.length === 0) {
-      contenedor.innerHTML = '<div class="vacio">✅ Sin tareas pendientes · ¡Al día!</div>';
-      return;
-    }
-
-    // Ordenar por fecha
-    pendientes.sort((a, b) => {
-      const fa = normalizarFecha(a.fecha_entrega) || '';
-      const fb = normalizarFecha(b.fecha_entrega) || '';
-      return fa.localeCompare(fb);
-    });
-
-    contenedor.innerHTML = pendientes.map(t => {
-      const fecha = normalizarFecha(t.fecha_entrega);
-      const dias  = fecha ? diasRestantes(fecha) : 99;
-      const u     = urgencia(dias);
-      const emoji = emojiAsig(t.asignatura);
-
-      return `
-        <div class="card ${u.clase}">
-          <div class="card-top">
-            <span class="card-emoji">${emoji}</span>
-            <div>
-              <div class="card-titulo">${t.titulo || '—'}</div>
-              ${t.descripcion ? `<div class="card-desc">${t.descripcion}</div>` : ''}
-            </div>
-          </div>
-          <div class="card-footer">
-            <span class="badge badge-asig">${t.asignatura || '—'}</span>
-            <span class="badge ${u.badge}">${fecha ? fechaLegible(fecha) : '—'} · ${u.texto}</span>
-            ${t.tipo ? `<span class="badge badge-tipo">${t.tipo}</span>` : ''}
-          </div>
-        </div>
-      `;
-    }).join('');
-  }
-
-  function renderExamenes(examenes) {
-    const contenedor = document.getElementById('lista-examenes');
-    const pendientes = examenes.filter(e => e.estado?.toLowerCase() === 'pendiente');
-
-    document.getElementById('count-examenes').textContent = `${pendientes.length} próximos`;
-    document.getElementById('stat-examenes').textContent  = pendientes.length;
-
-    if (pendientes.length === 0) {
-      contenedor.innerHTML = '<div class="vacio">✅ Sin exámenes próximos</div>';
-      return;
-    }
-
-    pendientes.sort((a, b) => {
-      const fa = normalizarFecha(a.fecha_examen) || '';
-      const fb = normalizarFecha(b.fecha_examen) || '';
-      return fa.localeCompare(fb);
-    });
-
-    contenedor.innerHTML = pendientes.map(e => {
-      const fecha = normalizarFecha(e.fecha_examen);
-      const dias  = fecha ? diasRestantes(fecha) : 99;
-      const u     = urgencia(dias);
-      const emoji = emojiAsig(e.asignatura);
-
-      return `
-        <div class="card examen">
-          <div class="card-top">
-            <span class="card-emoji">${emoji}</span>
-            <div>
-              <div class="card-titulo">${e.titulo || '—'}</div>
-              ${e.descripcion ? `<div class="card-desc">${e.descripcion}</div>` : ''}
-            </div>
-          </div>
-          <div class="card-footer">
-            <span class="badge badge-asig">${e.asignatura || '—'}</span>
-            <span class="badge ${u.badge}">${fecha ? fechaLegible(fecha) : '—'} · ${u.texto}</span>
-            ${e.temas ? `<span class="badge badge-temas">📖 ${e.temas}</span>` : ''}
-            ${e.aula  ? `<span class="badge badge-aula">🚪 Aula ${e.aula}</span>`  : ''}
-          </div>
-        </div>
-      `;
-    }).join('');
-  }
-
-  function actualizarUrgentes(tareas, examenes) {
-    const hoy = new Date(); hoy.setHours(0,0,0,0);
-    let urgentes = 0;
-
-    [...tareas, ...examenes].forEach(item => {
-      const fecha = normalizarFecha(item.fecha_entrega || item.fecha_examen);
-      if (fecha && diasRestantes(fecha) <= 3) urgentes++;
-    });
-
-    document.getElementById('stat-urgentes').textContent = urgentes;
-  }
-
-  async function cargar() {
-    try {
-      const [tareas, examenes] = await Promise.all([
-        leerHoja('TAREAS'),
-        leerHoja('EXAMENES')
-      ]);
-
-      renderTareas(tareas);
-      renderExamenes(examenes);
-      actualizarUrgentes(tareas, examenes);
-
-      const ahora = new Date();
-      document.getElementById('stat-actualizacion').textContent =
-        `${ahora.getHours()}:${String(ahora.getMinutes()).padStart(2,'0')}`;
-
-    } catch (error) {
-      console.error('Error cargando datos:', error);
-      document.getElementById('lista-tareas').innerHTML =
-        '<div class="vacio">❌ Error cargando datos. Comprueba que el Sheet es público.</div>';
-      document.getElementById('lista-examenes').innerHTML =
-        '<div class="vacio">❌ Error cargando datos.</div>';
-    }
-  }
-
-  // Carga inicial y refresco cada 5 minutos
-  cargar();
-  setInterval(cargar, 5 * 60 * 1000);
-</script>
-
-</body>
->>>>>>> 928e225066bc0dbf6bc6385db59a5a6b27e9a355
 </html>
